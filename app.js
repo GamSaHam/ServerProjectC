@@ -1,89 +1,51 @@
 ﻿/*
-	1. Socket.IO 유니티와 통신 예제
-
-
-    //커맨드 창으로 npm install socket.io 설치
+    일자: 2016-12-01
+    내용: 스마트 헬멧을 위한 Node.js 서버
+   
 */
 
-var io = require('socket.io')({
-    transports: ['websocket'],
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+app.get('/', function (req, res) {
+    res.sendfile('index.html');
 });
 
-io.attach(4567);
+http.listen(9000, function () {
+    console.log('listening on *:9000');
+});
 
-var clients = [];
+var socketes = [];
 
 io.on('connection', function (socket) {
-    // nodejs 에서 받는쪽 socket.on(param) 
-    socket.on('addClient', function (data) {
-        addClient(data);
-    });
 
-    socket.on('broadcast', function (data) {
-        // 자신을 제외한 다른 연결된 유저
-        socket.broadcast.emit('score', currentUser);
+    console.log('connection');
 
-        // 통신을 한쪽에게 다시 포스트
-        socket.emit('score', currentUser);
-    });
-
-    socket.on('removeClient', function (data) {
-
-        removeClient(data);
+    socket.on('addUser', function () {
+        console.log('add user');
+        socketes.push(socket);
 
 
     });
 
-    // TODO
+    socket.on('musicPlay', function (data) {
 
-    socket.on('soundPlay', function (data) {
-
-        //removeClient(data);
+        console.log('play the music');
 
         current_data =
             {
-                id: data.id,
-                music_index: data.music_index
+                s_player_index: data.s_player_index,
+                s_music_index: data.s_music_index
             };
 
-        console.log('soundPlay');
-        socket.broadcast.emit('soundPlay', current_data);
+        var index = parseInt(current_data.s_player_index);
+
+        socketes[index].emit('onMusicPlay', data);
+
 
     });
 
 
 
-
-})
-
-function addClient(data) {
-    currentUser =
-        {
-            id: data.id,
-
-        }
-
-    // 추가
-    clients.push(currentUser);
-
-    console.log('addClient');
-}
-
-function removeClient(data) {
-    for (var i = 0; i < clients.length; i++) {
-        var currentClient = clients[i];
-
-        if (currentClient.id == data.id) {
-            clients.splice(i, 1);
-            console.log("client remove" + i);
-
-            return true;
-        }
-    }
-
-
-    return false;
-}
-
-
-console.log('server is started');
+});
