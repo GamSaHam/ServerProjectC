@@ -1,0 +1,9 @@
+{
+  "name": "server-project-c",
+  "version": "0.0.0",
+  "description": "ServerProjectC",
+  "main": "app.js",
+  "author": {
+    "name": "PDK"
+  }
+}
