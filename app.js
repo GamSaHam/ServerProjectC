@@ -24,16 +24,18 @@ io.on('connection', function (socket) {
 
     console.log('connection');
 
-    socket.on('measureTheTime', function (data) {
+    socket.on('measureTheTime', function () {
 
-        var current_data =
-        {
-            s_send_ms: data.s_send_ms
-        };
-
-        socket.broadcast.emit('onMeasureTheTime', data);
+        socket.broadcast.emit('onMeasureTheTime');
 
     });
+
+    socket.on('measureTheTimeResponse', function () {
+
+        socket.broadcast.emit('onMeasureTheTimeResponse');
+
+    });
+
 
 
     socket.on('addUser', function () {
