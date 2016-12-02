@@ -38,11 +38,13 @@
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />
     <Folder Include="typings\globals\express\" />
+    <Folder Include="typings\globals\moment\" />
     <Folder Include="typings\globals\node\" />
     <Folder Include="typings\globals\socket.io\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="typings\globals\express\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\moment\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\socket.io\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
