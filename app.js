@@ -24,17 +24,14 @@ io.on('connection', function (socket) {
 
     console.log('connection');
 
-    socket.on('sendPacket', function (data) {
+    socket.on('measureTheTime', function (data) {
 
         var current_data =
         {
-            s_current_ms: data.s_current_ms
+            s_send_ms: data.s_send_ms
         };
 
-        console.log(current_data.s_current_ms);
-        console.log(microtime.now());
-
-
+        socket.broadcast.emit('onMeasureTheTime', data);
 
     });
 
@@ -54,9 +51,11 @@ io.on('connection', function (socket) {
             s_music_index: data.s_music_index
         };
 
-        var index = parseInt(current_data.s_player_index);
 
-        socketes[index].emit('onMusicPlay', data);
+        var index = parseInt(current_data.s_player_index);
+        if (index < socketes.length) {
+            socketes[index].emit('onMusicPlay', data);
+        }
     });
 
 });
