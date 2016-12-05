@@ -8,38 +8,37 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var microtime = require('microtime');
 
-
-
 app.get('/', function (req, res) {
     res.sendfile('index.html');
 });
 
 http.listen(9000, function () {
     console.log('listening on *:9000');
+    console.log('public dns:ec2-52-78-204-8.ap-northeast-2.compute.amazonaws.com ');
 });
 
 var socketes = [];
 
 io.on('connection', function (socket) {
 
-    console.log('connection');
+    console.log('socket connection');
 
     socket.on('measureTheTime', function () {
 
-        socket.broadcast.emit('onMeasureTheTime');
 
+        console.time('timeCheck');
+
+        socket.broadcast.emit('onMeasureTheTime');
     });
 
     socket.on('measureTheTimeResponse', function () {
+        console.timeEnd('timeCheck');
 
         socket.broadcast.emit('onMeasureTheTimeResponse');
-
     });
 
-
-
     socket.on('addUser', function () {
-        console.log('add user');
+        console.log('user connection');
         socketes.push(socket);
     });
 
@@ -52,7 +51,6 @@ io.on('connection', function (socket) {
             s_player_index: data.s_player_index,
             s_music_index: data.s_music_index
         };
-
 
         var index = parseInt(current_data.s_player_index);
         if (index < socketes.length) {
