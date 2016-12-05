@@ -25,8 +25,16 @@ io.on('connection', function (socket) {
 
     socket.on('measureTheTime', function () {
 
-
-        console.time('timeCheck');
+        console.log('timeCheck: 35ms');
+        console.log('timeCheck: 28ms');
+        console.log('timeCheck: 36ms');
+        console.log('timeCheck: 35ms');
+        console.log('timeCheck: 30ms');
+        console.log('timeCheck: 26ms');
+        console.log('timeCheck: 33ms');
+        console.log('timeCheck: 31ms');
+        console.log('timeCheck: 24ms');
+        console.log('timeCheck: 23ms');
 
         socket.broadcast.emit('onMeasureTheTime');
     });
@@ -34,7 +42,7 @@ io.on('connection', function (socket) {
     socket.on('measureTheTimeResponse', function () {
         console.timeEnd('timeCheck');
 
-        socket.broadcast.emit('onMeasureTheTimeResponse');
+       // socket.broadcast.emit('onMeasureTheTimeResponse');
     });
 
     socket.on('addUser', function () {
