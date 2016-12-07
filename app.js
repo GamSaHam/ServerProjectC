@@ -40,7 +40,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('measureTheTimeResponse', function () {
-        console.timeEnd('timeCheck');
+        //console.timeEnd('timeCheck');
 
        // socket.broadcast.emit('onMeasureTheTimeResponse');
     });
@@ -65,5 +65,22 @@ io.on('connection', function (socket) {
             socketes[index].emit('onMusicPlay', data);
         }
     });
+
+    socket.on('vibrate', function (data) {
+
+        console.log('vibrate');
+
+        current_data =
+            {
+                s_player_index: data.s_player_index,
+                s_vibrate_index: data.s_vibrate_index
+            };
+
+        var index = parseInt(current_data.s_player_index);
+        if (index < socketes.length) {
+            socketes[index].emit('onVibrate', data);
+        }
+    });
+
 
 });
